@@ -3,34 +3,31 @@
 This is a sample Spring Boot 2 app to demonstrate the raw performance difference between a Spring Boot 2 app vs a Spring Boot 1 app. 
 
 
-= Backing Service
+## Backing Service
 
-[source, bash]
-----
+```bash
 ./gradlew -p applications/sample-load-target clean bootRun
-----
+```
 
-= Spring Boot 2 based app:
+## Spring Boot 2 based app:
 
-== Run the Spring Boot 2 based app:
-[source, bash]
-----
+### Run the Spring Boot 2 based app:
+
+```bash
 ./gradlew -p applications/boot2-load-sample clean bootRun
-----
+```
 
-== Call target endpoint
+### Call target endpoint
 
 Assuming that https://httpie.org/[httpie] is installed
 
-[source, bash]
-----
+```bash
 http POST 'http://localhost:8082/passthrough/messages' id="1" payload="one"   delay="1000"
-----
+```
 
 OR with CURL
 
-[source, bash]
-----
+```bash
 curl -X "POST" "http://localhost:8082/passthrough/messages" \
      -H "Accept: application/json" \
      -H "Content-Type: application/json" \
@@ -39,30 +36,28 @@ curl -X "POST" "http://localhost:8082/passthrough/messages" \
   "payload": "one",
   "delay": "1000"
 }'
-----
+```
 
 
-= Spring Boot 1 based app:
+## Spring Boot 1 based app:
 
-== Run the Spring Boot 1 based app:
-[source, bash]
-----
+### Run the Spring Boot 1 based app:
+
+```bash
 ./gradlew -p applications/boot1-load-sample clean bootRun
-----
+```
 
-== Call target endpoint
+### Call target endpoint
 
 Assuming that https://httpie.org/[httpie] is installed
 
-[source, bash]
-----
+```bash
 http POST 'http://localhost:8081/passthrough/messages' id="1" payload="one"   delay="1000"
-----
+```
 
 OR with CURL
 
-[source, bash]
-----
+```bash
 curl -X "POST" "http://localhost:8081/passthrough/messages" \
      -H "Accept: application/json" \
      -H "Content-Type: application/json" \
@@ -71,18 +66,21 @@ curl -X "POST" "http://localhost:8081/passthrough/messages" \
   "payload": "one",
   "delay": "1000"
 }'
-----
+```
 
-= Run Load tests
+## Run Load tests
 
-== Against Boot 2 version of the app
-[source, bash]
-----
+Run the following tests and each time increase SIM_USERS and compare Gatling Reports.  Observe at some point the Spring Boot 1 apps (Tomcat) performance lags behind Spring Boot 2 significantly.
+
+### Against Boot 2 version of the app
+
+```bash
 ./gradlew -p applications/load-scripts  -DTARGET_URL=http://localhost:8082 -DSIM_USERS=300 gatlingRun
-----
+```
 
-== Against Boot 1 version of the app
-[source, bash]
-----
+### Against Boot 1 version of the app
+
+```bash
 ./gradlew -p applications/load-scripts  -DTARGET_URL=http://localhost:8081 -DSIM_USERS=300 gatlingRun
-----
+```
+
